@@ -19,7 +19,7 @@ st.markdown(
 st.markdown(
     """
     <div style='text-align:center; font-size:22px; font-weight:600;'>
-        🎯 Roll a number from 1 to 100 | ✅ 56 to 100 = WIN | ❌ 1 to 55 = Host Wins | 💰 500 Buy-In | 🎯 Max Bet 50
+        🎯 Roll a number from 1 to 100 | ✅ 56 to 100 = WIN | ❌ 1 to 55 = Host Wins | 💰 500 Buy-In | 🎯 Max Bet 500
     </div>
     """,
     unsafe_allow_html=True
@@ -64,7 +64,7 @@ with center:
         with row[0]:
             player = st.selectbox("Player", list(st.session_state.balances.keys()))
         with row[1]:
-            bet = st.slider("Bet 🎯", 1, 50, 10)
+            bet = st.slider("Bet 🎯", 1, 500, 10)  # ✅ UPDATED MAX BET
 
         roll_display = st.empty()
 
@@ -73,7 +73,7 @@ with center:
             if bet > st.session_state.balances[player]:
                 st.warning("Not enough tokens")
             else:
-                # 🎲 Suspense roll (~3 seconds, fast ticks)
+                # 🎲 Suspense roll (≈3 seconds, fast ticks)
                 for _ in range(50):
                     roll_display.markdown(
                         f"<h1 style='text-align:center;font-size:80px;'>🎲 {random.randint(1,100)}</h1>",
