@@ -20,10 +20,6 @@ st.markdown(
 # -----------------------------
 if "balances" not in st.session_state:
     st.session_state.balances = {}
-if "wins" not in st.session_state:
-    st.session_state.wins = {}
-if "losses" not in st.session_state:
-    st.session_state.losses = {}
 if "last_roll" not in st.session_state:
     st.session_state.last_roll = {}
 if "house" not in st.session_state:
@@ -47,8 +43,6 @@ with left:
     if add_clicked:
         if name and name not in st.session_state.balances:
             st.session_state.balances[name] = 500
-            st.session_state.wins[name] = 0
-            st.session_state.losses[name] = 0
             st.session_state.last_roll[name] = None
 
 # -----------------------------
@@ -86,12 +80,11 @@ with center:
 
                 if roll > 55:
                     st.session_state.balances[player] += bet
-                    st.session_state.wins[player] += 1
                     st.session_state.house -= bet
+                    st.balloons()
                     st.success(f"🔥 {player} WINS {bet}!")
                 else:
                     st.session_state.balances[player] -= bet
-                    st.session_state.losses[player] += 1
                     st.session_state.house += bet
                     st.error(f"💀 Host wins {bet}!")
 
@@ -103,15 +96,11 @@ with right:
 
     for p in st.session_state.balances:
         bal = st.session_state.balances[p]
-        w = st.session_state.wins[p]
-        l = st.session_state.losses[p]
         last = st.session_state.last_roll[p]
         roll_text = f" 🎲{last}" if last else ""
-        st.write(f"**{p}** 💰{bal} | ✅{w} ❌{l}{roll_text}")
+        st.write(f"**{p}** 💰{bal}{roll_text}")
 
     if st.button("🔄 Reset"):
         st.session_state.balances.clear()
-        st.session_state.wins.clear()
-        st.session_state.losses.clear()
         st.session_state.last_roll.clear()
         st.session_state.house = 5000
