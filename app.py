@@ -5,11 +5,21 @@ import time
 
 st.set_page_config(page_title="Dice Game", layout="wide")
 
-# 🎲 TITLE + RULES
+# 🎲 TITLE (BIGGER)
 st.markdown(
     """
-    <div style='text-align:center; font-size:26px; font-weight:700;'>
-        🎲 DICE GAME 🎲 | 🎯 Roll a number from 1 to 100 | ✅ 56 to 100 = WIN | ❌ 1 to 55 = Host Wins | 💰 500 Buy-In | 🎯 Max Bet 50
+    <div style='text-align:center; font-size:38px; font-weight:800;'>
+        🎲 DICE GAME 🎲
+    </div>
+    """,
+    unsafe_allow_html=True
+)
+
+# 📜 RULES LINE
+st.markdown(
+    """
+    <div style='text-align:center; font-size:22px; font-weight:600;'>
+        🎯 Roll a number from 1 to 100 | ✅ 56 to 100 = WIN | ❌ 1 to 55 = Host Wins | 💰 500 Buy-In | 🎯 Max Bet 50
     </div>
     """,
     unsafe_allow_html=True
@@ -63,7 +73,7 @@ with center:
             if bet > st.session_state.balances[player]:
                 st.warning("Not enough tokens")
             else:
-                # 🎲 Suspense roll (≈3 seconds, fast ticks)
+                # 🎲 Suspense roll (~3 seconds, fast ticks)
                 for _ in range(50):
                     roll_display.markdown(
                         f"<h1 style='text-align:center;font-size:80px;'>🎲 {random.randint(1,100)}</h1>",
