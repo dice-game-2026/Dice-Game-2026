@@ -2,6 +2,11 @@
 import streamlit as st
 import random
 import time
+import requests  # ⭐ THIS is the important new one (talks to FastAPI server)
+# -*- coding: utf-8 -*-
+import streamlit as st
+import random
+import time
 
 st.set_page_config(page_title="Dice Game", layout="wide")
 
@@ -114,3 +119,4 @@ with right:
         st.session_state.balances.clear()
         st.session_state.last_roll.clear()
         st.session_state.house = 5000
+
