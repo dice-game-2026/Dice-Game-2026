@@ -39,7 +39,19 @@ if "last_roll" not in st.session_state:
     st.session_state.last_roll = {}
 if "house" not in st.session_state:
     st.session_state.house = 5000
+# -----------------------------
+# LOAD PLAYERS FROM SERVER (NEW)
+# -----------------------------
+if not st.session_state.balances:  # only load once
+    try:
+        r = requests.get("http://127.0.0.1:8000/players")
+        data = r.json()
 
+        for name, balance in data.items():
+            st.session_state.balances[name] = balance
+            st.session_state.last_roll[name] = None
+    except:
+        st.warning("Server not running")
 # -----------------------------
 # 3 COLUMN DASHBOARD
 # -----------------------------
@@ -156,5 +168,6 @@ with right:
         st.session_state.balances.clear()
         st.session_state.last_roll.clear()
         st.session_state.house = 5000
+
 
 
