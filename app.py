@@ -44,7 +44,7 @@ left, center, right = st.columns([1, 2, 1], gap="small")
 # LEFT PANEL (Add Player)
 # -----------------------------
 with left:
-    name_col, btn_col = st.columns([3,1])
+    name_col, btn_col = st.columns([2,1])  # ⬅️ shorter input
     with name_col:
         name = st.text_input("Player", label_visibility="collapsed", placeholder="Add player")
     with btn_col:
@@ -60,11 +60,10 @@ with left:
 # -----------------------------
 with center:
     if st.session_state.balances:
-        row = st.columns([2,1])
-        with row[0]:
-            player = st.selectbox("Player", list(st.session_state.balances.keys()))
-        with row[1]:
-            bet = st.slider("Bet 🎯", 1, 500, 10)  # ✅ UPDATED MAX BET
+        player = st.selectbox("Player", list(st.session_state.balances.keys()))
+
+        # ⬇️ SLIDER MOVED ABOVE
+        bet = st.slider("Bet 🎯", 1, 500, 10)
 
         roll_display = st.empty()
 
