@@ -73,7 +73,8 @@ with center:
         bet = st.slider("Bet 🎯", 1, 500, 10)
         roll_display = st.empty()
 
-        if st.button("ROLL 🎲", use_container_width=True):
+        can_play = st.session_state.balances[player] > 0
+if st.button("ROLL 🎲", use_container_width=True, disabled=not can_play):
 
             # 🎞️ Fake animation
             for _ in range(40):
@@ -119,3 +120,22 @@ with right:
     for p, bal in st.session_state.balances.items():
         last = st.session_state.last_roll[p]
         st.write(f"**{p}** — 💰 {bal} 🎲 {last if last else ''}")
+
+    # -----------------------------
+    # HOST BALANCE
+    # -----------------------------
+    try:
+        r = requests.get("http://127.0.0.1:8000/host")
+        host_data = r.json()
+        st.write(f"🏦 **Host Bank:** {host_data['host_balance']}")
+    except:
+        pass
+
+    # -----------------------------
+    # RESET BUTTON
+    # -----------------------------
+    if st.button("🔄 Reset Game"):
+        requests.post("http://127.0.0.1:8000/reset")
+        st.session_state.balances = {}
+        st.session_state.last_roll = {}
+        st.experimental_rerun()
