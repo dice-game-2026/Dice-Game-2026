@@ -72,7 +72,44 @@ with center:
 
         roll_display = st.empty()
 
-        if st.button("ROLL 🎲", use_container_width=True):
+       if st.button("ROLL 🎲", use_container_width=True):
+
+    # 🎞️ Fake rolling animation (visual only)
+    for _ in range(50):
+        roll_display.markdown(
+            f"<h1 style='text-align:center;font-size:80px;'>🎲 {random.randint(1,100)}</h1>",
+            unsafe_allow_html=True
+        )
+        time.sleep(0.06)
+
+    # 🎲 REAL roll from server
+    response = requests.post(
+        "http://127.0.0.1:8000/roll",
+        json={"name": player, "amount": bet}
+    )
+
+    data = response.json()
+
+    if "error" in data:
+        st.error(data["error"])
+    else:
+        roll = data["roll"]
+        result = data["result"]
+        new_balance = data["balance"]
+
+        st.session_state.balances[player] = new_balance
+        st.session_state.last_roll[player] = roll
+
+        roll_display.markdown(
+            f"<h1 style='text-align:center;font-size:100px;'>🎲 {roll}</h1>",
+            unsafe_allow_html=True
+        )
+
+        if result == "win":
+            st.balloons()
+            st.success(f"🔥 {player} WINS {bet}!")
+        else:
+            st.error(f"💀 Host wins {bet}!")
 
             if bet > st.session_state.balances[player]:
                 st.warning("Not enough tokens")
@@ -119,4 +156,5 @@ with right:
         st.session_state.balances.clear()
         st.session_state.last_roll.clear()
         st.session_state.house = 5000
+
 
